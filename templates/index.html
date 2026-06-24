@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-<h1>Nuclei Security Scanner</h1>
-
-<form action="/scan" method="post">
-    <input name="target"
-           placeholder="https://example.com">
-    <button type="submit">
-        Scan
-    </button>
-</form>
-
+    <h1>Nuclei Security Scanner</h1>
+    <form action="/scan" method="post">
+        <input name="target" placeholder="https://example.com" required>
+        <button type="submit">Start Scan</button>
+    </form>
+    <div id="status"></div>
 </body>
 </html>
