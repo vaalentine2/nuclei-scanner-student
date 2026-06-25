@@ -1,51 +1,226 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Nuclei Security Scanner</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuclei Security Scanner</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #161b22, #1f2937);
+      border-bottom: 1px solid #30363d;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #58a6ff;
+      letter-spacing: 1px;
+    }
+    header .badge {
+      background: #238636;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .scan-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .scan-card h2 { font-size: 18px; color: #e6edf3; margin-bottom: 6px; }
+    .scan-card p.subtitle { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
+    .scan-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .scan-form input[name="target"] {
+      flex: 1;
+      min-width: 260px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #c9d1d9;
+      font-size: 14px;
+      padding: 10px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .scan-form input[name="target"]:focus { border-color: #58a6ff; }
+    .scan-form button {
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .scan-form button:hover { background: #2ea043; }
+    #msg { margin-top: 14px; font-size: 13px; color: #58a6ff; }
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .results-header h2 { font-size: 18px; color: #e6edf3; }
+    .results-header .target-url { font-size: 13px; color: #58a6ff; word-break: break-all; }
+    .no-findings {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      color: #2ea043;
+      font-size: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 13px;
+    }
+    thead { background: #1f2937; }
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b949e;
+      border-bottom: 1px solid #30363d;
+    }
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #21262d;
+      vertical-align: top;
+      color: #c9d1d9;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #1f2937; }
+    .severity {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .severity-critical { background: #6e2e2e; color: #ff7b72; }
+    .severity-high     { background: #5a2d0c; color: #f0883e; }
+    .severity-medium   { background: #4a3900; color: #e3b341; }
+    .severity-low      { background: #1a3d2e; color: #56d364; }
+    .severity-info     { background: #1b3458; color: #79c0ff; }
+    .severity-unknown  { background: #2d333b; color: #8b949e; }
+    .nuclei-log {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 24px;
+    }
+    .nuclei-log h3 { font-size: 14px; color: #8b949e; margin-bottom: 12px; }
+    .nuclei-log pre { font-size: 12px; color: #8b949e; white-space: pre-wrap; word-break: break-all; line-height: 1.6; }
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 12px;
+      color: #484f58;
+      border-top: 1px solid #21262d;
+      margin-top: 60px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Nuclei Security Scanner</h1>
+<header>
+  <div class="logo">&#x1F6E1; Nuclei Scanner</div>
+  <span class="badge">Security Tool</span>
+</header>
 
-<form action="/scan" method="post" onsubmit="document.getElementById('msg').innerHTML='Scanning... please wait';">
-    <input name="target" placeholder="https://example.com" required>
-    <button type="submit">Scan</button>
-</form>
+<div class="container">
 
-<p id="msg"></p>
+  <div class="scan-card">
+    <h2>Scan a Target</h2>
+    <p class="subtitle">Enter a URL to run a Nuclei security scan and detect vulnerabilities.</p>
+    <form class="scan-form" action="/scan" method="post"
+          onsubmit="document.getElementById('msg').textContent='Scanning... please wait';">
+      <input name="target" placeholder="https://example.com" required>
+      <button type="submit">&#x25B6; Run Scan</button>
+    </form>
+    <p id="msg"></p>
+  </div>
 
-{% if target %}
-    <h2>Results for {{ target }}</h2>
+  {% if target %}
+  <div class="results-header">
+    <h2>Scan Results</h2>
+    <span class="target-url">&#x1F517; {{ target }}</span>
+  </div>
 
-    {% if findings %}
-        <table border="1" cellpadding="6">
-            <tr>
-                <th>Severity</th>
-                <th>Template</th>
-                <th>Missing Header</th>
-                <th>URL</th>
-                <th>Description</th>
-            </tr>
+  {% if findings %}
+  <table>
+    <thead>
+      <tr>
+        <th>Severity</th>
+        <th>Template</th>
+        <th>Missing Header</th>
+        <th>URL</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for f in findings %}
+      {% set sev = f.get("info", {}).get("severity", "unknown") | lower %}
+      <tr>
+        <td><span class="severity severity-{{ sev }}">{{ sev }}</span></td>
+        <td>{{ f.get("info", {}).get("name", "") }}</td>
+        <td>{{ f.get("matcher-name", "") }}</td>
+        <td style="word-break:break-all; max-width:200px;">{{ f.get("matched-at", "") }}</td>
+        <td>{{ f.get("info", {}).get("description", "") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="no-findings">&#x2705; No vulnerabilities found for this target.</div>
+  {% endif %}
 
-            {% for f in findings %}
-            <tr>
-                <td>{{ f.get("info", {}).get("severity", "") }}</td>
-                <td>{{ f.get("info", {}).get("name", "") }}</td>
-                <td>{{ f.get("matcher-name", "") }}</td>
-                <td>{{ f.get("matched-at", "") }}</td>
-                <td>{{ f.get("info", {}).get("description", "") }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>No missing security headers found.</p>
-    {% endif %}
+  {% if stderr %}
+  <div class="nuclei-log">
+    <h3>&#x1F4CB; Nuclei Output</h3>
+    <pre>{{ stderr }}</pre>
+  </div>
+  {% endif %}
+  {% endif %}
 
-    {% if stderr %}
-        <h3>Nuclei messages</h3>
-        <pre>{{ stderr }}</pre>
-    {% endif %}
-{% endif %}
+</div>
+
+<footer>Nuclei Security Scanner &mdash; For educational use only. Only scan authorized targets.</footer>
 
 </body>
 </html>
