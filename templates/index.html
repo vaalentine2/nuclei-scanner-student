@@ -359,21 +359,22 @@
 
     {% if findings %}
     <table>
-      <thead>
+            <thead>
         <tr>
           <th>Severity</th>
-          <th>Template</th>
-          <th>Name</th>
-          <th>Matched</th>
+          <th>Missing Header / Check</th>
+          <th>Matched At</th>
         </tr>
       </thead>
       <tbody>
         {% for f in findings %}
         <tr>
           <td><span class="badge badge-{{ f.info.severity | lower }}">{{ f.info.severity }}</span></td>
-          <td style="font-family:monospace;font-size:12px;color:#6366f1">{{ f['template-id'] }}</td>
-          <td style="font-weight:600">{{ f.info.name }}</td>
-          <td style="font-family:monospace;font-size:12px;word-break:break-all">{{ f['matched-at'] }}</td>
+          <td>
+            <div style="font-family:monospace;font-size:13px;font-weight:600;color:#4f46e5">{{ f['matcher-name'] if f['matcher-name'] else f['template-id'] }}</div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:2px">{{ f.info.name }}</div>
+          </td>
+          <td style="font-family:monospace;font-size:12px;word-break:break-all;color:#64748b">{{ f['matched-at'] }}</td>
         </tr>
         {% endfor %}
       </tbody>
