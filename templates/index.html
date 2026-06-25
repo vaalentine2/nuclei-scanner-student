@@ -8,13 +8,13 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
+      background: #f0f4ff;
+      color: #1e293b;
       min-height: 100vh;
     }
     header {
-      background: linear-gradient(135deg, #161b22, #1f2937);
-      border-bottom: 1px solid #30363d;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-bottom: none;
       padding: 18px 40px;
       display: flex;
       align-items: center;
@@ -23,7 +23,7 @@
     header .logo {
       font-size: 22px;
       font-weight: 700;
-      color: #58a6ff;
+      color: #ffffff;
       letter-spacing: 1px;
     }
     header .badge {
@@ -40,22 +40,158 @@
       padding: 0 20px;
     }
     .scan-card {
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: #ffffff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
       border-radius: 12px;
       padding: 32px;
       margin-bottom: 32px;
     }
-    .scan-card h2 { font-size: 18px; color: #e6edf3; margin-bottom: 6px; }
-    .scan-card p.subtitle { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
+    .scan-card h2 { font-size: 18px; color: #1e293b; margin-bottom: 6px; }
+    .scan-card p.subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
     .scan-form { display: flex; gap: 12px; flex-wrap: wrap; }
     .scan-form input[name="target"] {
       flex: 1;
       min-width: 260px;
-      background: #0d1117;
-      border: 1px solid #30363d;
+      background: #f0f4ff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
       border-radius: 8px;
-      color: #c9d1d9;
+      color: #1e293b;
+      font-size: 14px;
+      padding: 10px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .scan-form input[name="target"]:focus { border-color: #58a6ff; }
+    /* === Liquid Gradient Button === */
+    .liquid-btn-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 130px;
+      height: 42px;
+      flex-shrink: 0;
+    }
+    .liquid-btn-halo {
+      position: absolute;
+      inset: -5px;
+      border-radius: 14px;
+      filter: blur(14px);
+      opacity: 0.55;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .liquid-btn-halo svg { width: 100%; height: 100%; display: block; }
+    .liquid-btn-shadow {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: #020230;
+      filter: blur(5px);
+      transform: translateY(4px);
+      z-index: 1;
+      opacity: 0.45;
+    }
+    .liquid-btn-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      z-index: 2;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .liquid-btn-face-gradient { position: absolute; inset: 0; }
+    .liquid-btn-face-gradient svg { width: 100%; height: 100%; display: block; }
+    .liquid-btn-face-overlay {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60%; height: 40%;
+      border-radius: 8px;
+      filter: blur(8px);
+      background: #000066;
+      opacity: 0.6;
+    }
+    .liquid-btn-label {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      padding: 0 12px;
+      transition: color 0.2s;
+    }
+    .liquid-btn-label:hover { color: #fde68a; }
+    .liquid-btn-label:hover .lbl-icon { fill: #fde68a; }
+    .lbl-icon { fill: white; flex-shrink: 0; transition: fill 0.2s; }<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuclei Security Scanner</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4ff;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-bottom: none;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+    header .badge {
+      background: #238636;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .scan-card {
+      background: #ffffff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .scan-card h2 { font-size: 18px; color: #1e293b; margin-bottom: 6px; }
+    .scan-card p.subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+    .scan-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .scan-form input[name="target"] {
+      flex: 1;
+      min-width: 260px;
+      background: #f0f4ff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
+      border-radius: 8px;
+      color: #1e293b;
       font-size: 14px;
       padding: 10px 16px;
       outline: none;
@@ -187,11 +323,11 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    .results-header h2 { font-size: 18px; color: #e6edf3; }
-    .results-header .target-url { font-size: 13px; color: #58a6ff; word-break: break-all; }
+    .results-header h2 { font-size: 18px; color: #1e293b; }
+    .results-header .target-url { font-size: 13px; color: #6366f1; word-break: break-all; }
     .no-findings {
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: #ffffff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
       border-radius: 12px;
       padding: 32px;
       text-align: center;
@@ -201,13 +337,13 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: #ffffff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
       border-radius: 12px;
       overflow: hidden;
       font-size: 13px;
     }
-    thead { background: #1f2937; }
+    thead { background: #f8fafc; }
     th {
       padding: 12px 16px;
       text-align: left;
@@ -215,17 +351,17 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #8b949e;
-      border-bottom: 1px solid #30363d;
+      color: #64748b;
+      border-bottom: none;
     }
     td {
       padding: 12px 16px;
-      border-bottom: 1px solid #21262d;
+      border-bottom: 1px solid #e2e8f0;
       vertical-align: top;
-      color: #c9d1d9;
+      color: #1e293b;
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #1f2937; }
+    tr:hover td { background: #f8fafc; }
     .severity {
       display: inline-block;
       padding: 2px 10px;
@@ -240,22 +376,22 @@
     .severity-medium   { background: #4a3900; color: #e3b341; }
     .severity-low      { background: #1a3d2e; color: #56d364; }
     .severity-info     { background: #1b3458; color: #79c0ff; }
-    .severity-unknown  { background: #2d333b; color: #8b949e; }
+    .severity-unknown  { background: #f1f5f9; color: #64748b; }
     .nuclei-log {
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: #ffffff;
+      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
       border-radius: 12px;
       padding: 20px;
       margin-top: 24px;
     }
-    .nuclei-log h3 { font-size: 14px; color: #8b949e; margin-bottom: 12px; }
-    .nuclei-log pre { font-size: 12px; color: #8b949e; white-space: pre-wrap; word-break: break-all; line-height: 1.6; }
+    .nuclei-log h3 { font-size: 14px; color: #64748b; margin-bottom: 12px; }
+    .nuclei-log pre { font-size: 12px; color: #64748b; white-space: pre-wrap; word-break: break-all; line-height: 1.6; }
     footer {
       text-align: center;
       padding: 30px;
       font-size: 12px;
-      color: #484f58;
-      border-top: 1px solid #21262d;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
       margin-top: 60px;
     }
   
@@ -268,12 +404,12 @@
   }
   .spotlight-section h2 {
     font-size: 18px;
-    color: #e6edf3;
+    color: #1e293b;
     margin-bottom: 6px;
   }
   .spotlight-section p.subtitle {
     font-size: 13px;
-    color: #8b949e;
+    color: #64748b;
     margin-bottom: 24px;
   }
   .cards-row {
@@ -288,7 +424,7 @@
     --spread: 200;
     --radius: 14;
     --border: 3;
-    --backdrop: hsl(0 0% 60% / 0.12);
+    --backdrop: hsl(230 80% 97% / 0.9);
     --backup-border: var(--backdrop);
     --size: 200;
     --border-size: calc(var(--border, 2) * 1px);
@@ -379,12 +515,12 @@
   .glow-card .card-title {
     font-size: 15px;
     font-weight: 700;
-    color: #e6edf3;
+    color: #1e293b;
     margin: 0;
   }
   .glow-card .card-desc {
     font-size: 12px;
-    color: #8b949e;
+    color: #64748b;
     line-height: 1.5;
     margin: 0;
   }
@@ -406,63 +542,42 @@
           onsubmit="document.getElementById('msg').textContent='Scanning... please wait';">
       <input name="target" placeholder="https://example.com" required>
       <div class="liquid-btn-wrapper" id="liquidBtnWrapper">
-        <div class="liquid-btn-blur-outer">
-          <span class="liquid-btn-blur-inner-bg"></span>
-          <div class="liquid-btn-blur-inner">
-            <svg class="liquid-svg-canvas" viewBox="0 0 1030 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="1030" height="280" rx="140" fill="url(#lg-blur)"/><defs><radialGradient id="lg-blur" cx="50%" cy="50%" r="50%"><stop id="lb-s1" offset="0%" stop-color="#fff"/><stop id="lb-s2" offset="33%" stop-color="#1E10C5"/><stop id="lb-s3" offset="66%" stop-color="#4743EF"/><stop id="lb-s4" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg>
-          </div>
-        </div>
+        <div class="liquid-btn-halo"><svg viewBox="0 0 130 42" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="130" height="42" rx="10" fill="url(#halo-grad)"/><defs><radialGradient id="halo-grad" cx="50%" cy="50%" r="70%"><stop id="hg-s1" offset="0%" stop-color="#a78bfa"/><stop id="hg-s2" offset="60%" stop-color="#4743EF"/><stop id="hg-s3" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg></div>
         <div class="liquid-btn-shadow"></div>
         <div class="liquid-btn-face">
-          <span class="liquid-btn-bg-gray"></span>
-          <span class="liquid-btn-bg-black"></span>
-          <svg class="liquid-svg-canvas" viewBox="0 0 1030 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="1030" height="280" rx="140" fill="url(#lg-face)"/><defs><radialGradient id="lg-face" cx="50%" cy="50%" r="50%"><stop id="lf-s1" offset="0%" stop-color="#fff"/><stop id="lf-s2" offset="33%" stop-color="#1E10C5"/><stop id="lf-s3" offset="66%" stop-color="#4743EF"/><stop id="lf-s4" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg>
-          <span class="liquid-btn-glow"></span>
+          <div class="liquid-btn-face-gradient"><svg viewBox="0 0 130 42" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="130" height="42" rx="8" fill="url(#face-grad)"/><defs><radialGradient id="face-grad" cx="50%" cy="50%" r="70%"><stop id="fg-s1" offset="0%" stop-color="#9089E2"/><stop id="fg-s2" offset="45%" stop-color="#4743EF"/><stop id="fg-s3" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg></div>
+          <div class="liquid-btn-face-overlay"></div>
         </div>
-        <button type="submit" class="liquid-btn-submit" id="liquidScanBtn" aria-label="Run Scan">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 3L19 12L5 21V3Z" fill="white"/>
-          </svg>
+        <button type="submit" class="liquid-btn-label" id="liquidScanBtn" aria-label="Run Scan">
+          <svg class="lbl-icon" width="13" height="13" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L19 12L5 21V3Z"/></svg>
           Run Scan
         </button>
       </div>
       <script>
-        (function() {
-          // Liquid gradient animation
-          var COLORS = {
-            c1:'#FFFFFF', c2:'#1E10C5', c3:'#9089E2', c4:'#FCFCFE',
-            c5:'#B2B8E7', c6:'#0E2DCB', c7:'#0017E9', c8:'#4743EF',
-            c9:'#7D7BF4', c10:'#0B06FC', c11:'#C5C1EA', c12:'#290ECB'
-          };
-          var colorKeys = Object.values(COLORS);
-          var angle = 0;
-          var hovered = false;
-          var btn = document.getElementById('liquidScanBtn');
-          var grads = document.querySelectorAll('#lg-blur, #lg-face');
-          if(btn) {
-            btn.addEventListener('mouseenter', function(){ hovered = true; btn.querySelectorAll('path').forEach(function(p){p.style.fill='#facc15';}); });
-            btn.addEventListener('mouseleave', function(){ hovered = false; btn.querySelectorAll('path').forEach(function(p){p.style.fill='white';}); });
+        (function(){
+          var COLS=['#9089E2','#1E10C5','#4743EF','#0B06FC','#7D7BF4','#290ECB','#B2B8E7','#a78bfa'];
+          var a=0, hov=false;
+          var btn=document.getElementById('liquidScanBtn');
+          if(btn){
+            btn.addEventListener('mouseenter',function(){hov=true;});
+            btn.addEventListener('mouseleave',function(){hov=false;});
           }
-          function lerp(a, b, t){ return a + (b-a)*t; }
-          function animateGradient() {
-            angle += hovered ? 0.008 : 0.003;
-            var t = (Math.sin(angle)+1)/2;
-            var cx = 30 + 40*Math.sin(angle*0.7);
-            var cy = 30 + 40*Math.cos(angle*0.5);
-            grads.forEach(function(g){
-              if(!g) return;
-              g.setAttribute('cx', cx+'%');
-              g.setAttribute('cy', cy+'%');
-              g.setAttribute('r', (50 + 20*Math.sin(angle*0.3))+'%');
-              var stops = g.querySelectorAll('stop');
-              if(stops[0]) stops[0].setAttribute('stop-color', t > 0.5 ? COLORS.c1 : COLORS.c4);
-              if(stops[1]) stops[1].setAttribute('stop-color', colorKeys[Math.floor((angle*2)%colorKeys.length)]);
-              if(stops[2]) stops[2].setAttribute('stop-color', colorKeys[Math.floor((angle*3+4)%colorKeys.length)]);
-              if(stops[3]) stops[3].setAttribute('stop-color', colorKeys[Math.floor((angle*1.5+8)%colorKeys.length)]);
+          function tick(){
+            a += hov ? 0.014 : 0.005;
+            var cx=(50+28*Math.sin(a)).toFixed(1)+'%';
+            var cy=(50+22*Math.cos(a*0.7)).toFixed(1)+'%';
+            var r=(60+14*Math.sin(a*0.4)).toFixed(1)+'%';
+            var i=Math.floor(Math.abs(Math.sin(a*0.3))*COLS.length);
+            ['halo-grad','face-grad'].forEach(function(id){
+              var g=document.getElementById(id); if(!g) return;
+              g.setAttribute('cx',cx); g.setAttribute('cy',cy); g.setAttribute('r',r);
+              var s=g.querySelectorAll('stop');
+              if(s[1]) s[1].setAttribute('stop-color',COLS[i]);
+              if(s[2]) s[2].setAttribute('stop-color',COLS[(i+3)%COLS.length]);
             });
-            requestAnimationFrame(animateGradient);
+            requestAnimationFrame(tick);
           }
-          animateGradient();
+          tick();
         })();
       </script>
     </form>
