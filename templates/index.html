@@ -62,18 +62,122 @@
       transition: border-color 0.2s;
     }
     .scan-form input[name="target"]:focus { border-color: #58a6ff; }
-    .scan-form button {
-      background: #238636;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 24px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
+    /* === Liquid Gradient Button === */
+    .liquid-btn-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 140px;
+      height: 2.7em;
+      flex-shrink: 0;
     }
-    .scan-form button:hover { background: #2ea043; }
+    .liquid-btn-wrapper a,
+    .liquid-btn-wrapper button[type="submit"] {
+      all: unset;
+    }
+    .liquid-btn-blur-outer {
+      position: absolute;
+      width: 112.81%;
+      height: 128.57%;
+      top: 8.57%;
+      left: 50%;
+      transform: translateX(-50%);
+      filter: blur(19px);
+      opacity: 0.7;
+    }
+    .liquid-btn-blur-inner-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: #d9d9d9;
+      filter: blur(6.5px);
+    }
+    .liquid-btn-blur-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .liquid-btn-shadow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -40%);
+      width: 92.23%;
+      height: 112.85%;
+      border-radius: 8px;
+      background: #010128;
+      filter: blur(7.3px);
+    }
+    .liquid-btn-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 2px solid #fff;
+    }
+    .liquid-btn-bg-gray {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: #d9d9d9;
+    }
+    .liquid-btn-bg-black {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: #000;
+    }
+    .liquid-btn-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -40%);
+      width: 70.8%;
+      height: 42.85%;
+      border-radius: 8px;
+      filter: blur(15px);
+      background: #000066;
+    }
+    .liquid-btn-submit {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      transition: color 0.2s;
+      padding: 0 16px;
+    }
+    .liquid-btn-submit:hover { color: #facc15; }
+    .liquid-btn-submit svg { flex-shrink: 0; }
+    .liquid-btn-submit:hover svg path { fill: #facc15; }
+
+    /* Liquid SVG canvas */
+    .liquid-svg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .liquid-layer {
+      position: absolute;
+      mix-blend-mode: difference;
+    }
+    .liquid-layer-hard {
+      position: absolute;
+      mix-blend-mode: hard-light;
+    }
     #msg { margin-top: 14px; font-size: 13px; color: #58a6ff; }
     .results-header {
       display: flex;
@@ -301,7 +405,66 @@
     <form class="scan-form" action="/scan" method="post"
           onsubmit="document.getElementById('msg').textContent='Scanning... please wait';">
       <input name="target" placeholder="https://example.com" required>
-      <button type="submit">&#x25B6; Run Scan</button>
+      <div class="liquid-btn-wrapper" id="liquidBtnWrapper">
+        <div class="liquid-btn-blur-outer">
+          <span class="liquid-btn-blur-inner-bg"></span>
+          <div class="liquid-btn-blur-inner">
+            <svg class="liquid-svg-canvas" viewBox="0 0 1030 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="1030" height="280" rx="140" fill="url(#lg-blur)"/><defs><radialGradient id="lg-blur" cx="50%" cy="50%" r="50%"><stop id="lb-s1" offset="0%" stop-color="#fff"/><stop id="lb-s2" offset="33%" stop-color="#1E10C5"/><stop id="lb-s3" offset="66%" stop-color="#4743EF"/><stop id="lb-s4" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg>
+          </div>
+        </div>
+        <div class="liquid-btn-shadow"></div>
+        <div class="liquid-btn-face">
+          <span class="liquid-btn-bg-gray"></span>
+          <span class="liquid-btn-bg-black"></span>
+          <svg class="liquid-svg-canvas" viewBox="0 0 1030 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="1030" height="280" rx="140" fill="url(#lg-face)"/><defs><radialGradient id="lg-face" cx="50%" cy="50%" r="50%"><stop id="lf-s1" offset="0%" stop-color="#fff"/><stop id="lf-s2" offset="33%" stop-color="#1E10C5"/><stop id="lf-s3" offset="66%" stop-color="#4743EF"/><stop id="lf-s4" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg>
+          <span class="liquid-btn-glow"></span>
+        </div>
+        <button type="submit" class="liquid-btn-submit" id="liquidScanBtn" aria-label="Run Scan">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 3L19 12L5 21V3Z" fill="white"/>
+          </svg>
+          Run Scan
+        </button>
+      </div>
+      <script>
+        (function() {
+          // Liquid gradient animation
+          var COLORS = {
+            c1:'#FFFFFF', c2:'#1E10C5', c3:'#9089E2', c4:'#FCFCFE',
+            c5:'#B2B8E7', c6:'#0E2DCB', c7:'#0017E9', c8:'#4743EF',
+            c9:'#7D7BF4', c10:'#0B06FC', c11:'#C5C1EA', c12:'#290ECB'
+          };
+          var colorKeys = Object.values(COLORS);
+          var angle = 0;
+          var hovered = false;
+          var btn = document.getElementById('liquidScanBtn');
+          var grads = document.querySelectorAll('#lg-blur, #lg-face');
+          if(btn) {
+            btn.addEventListener('mouseenter', function(){ hovered = true; btn.querySelectorAll('path').forEach(function(p){p.style.fill='#facc15';}); });
+            btn.addEventListener('mouseleave', function(){ hovered = false; btn.querySelectorAll('path').forEach(function(p){p.style.fill='white';}); });
+          }
+          function lerp(a, b, t){ return a + (b-a)*t; }
+          function animateGradient() {
+            angle += hovered ? 0.008 : 0.003;
+            var t = (Math.sin(angle)+1)/2;
+            var cx = 30 + 40*Math.sin(angle*0.7);
+            var cy = 30 + 40*Math.cos(angle*0.5);
+            grads.forEach(function(g){
+              if(!g) return;
+              g.setAttribute('cx', cx+'%');
+              g.setAttribute('cy', cy+'%');
+              g.setAttribute('r', (50 + 20*Math.sin(angle*0.3))+'%');
+              var stops = g.querySelectorAll('stop');
+              if(stops[0]) stops[0].setAttribute('stop-color', t > 0.5 ? COLORS.c1 : COLORS.c4);
+              if(stops[1]) stops[1].setAttribute('stop-color', colorKeys[Math.floor((angle*2)%colorKeys.length)]);
+              if(stops[2]) stops[2].setAttribute('stop-color', colorKeys[Math.floor((angle*3+4)%colorKeys.length)]);
+              if(stops[3]) stops[3].setAttribute('stop-color', colorKeys[Math.floor((angle*1.5+8)%colorKeys.length)]);
+            });
+            requestAnimationFrame(animateGradient);
+          }
+          animateGradient();
+        })();
+      </script>
     </form>
     <p id="msg"></p>
   </div>
