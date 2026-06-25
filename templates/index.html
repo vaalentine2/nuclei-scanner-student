@@ -5,79 +5,135 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuclei Security Scanner</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f4ff;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: #f5f7ff;
       color: #1e293b;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
+
+    /* ── Header ── */
     header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-bottom: none;
-      padding: 18px 40px;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #a855f7 100%);
+      padding: 0 40px;
+      height: 64px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+      box-shadow: 0 2px 20px rgba(79,70,229,0.35);
     }
-    header .logo {
-      font-size: 22px;
+    header svg { color: #fff; flex-shrink: 0; }
+    .header-title {
+      font-size: 20px;
       font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 1px;
+      color: #fff;
+      letter-spacing: -0.3px;
     }
-    header .badge {
-      background: #238636;
+    .header-badge {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
       color: #fff;
       font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
       font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
     }
-    .container {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 20px;
+
+    /* ── Main layout ── */
+    main {
+      flex: 1;
+      max-width: 860px;
+      width: 100%;
+      margin: 48px auto;
+      padding: 0 24px;
     }
+
+    /* ── Hero text ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1e293b;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, #4f46e5, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: #64748b;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── Scan card ── */
     .scan-card {
-      background: #ffffff;
-      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
-      border-radius: 12px;
-      padding: 32px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 40px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 40px -5px rgba(79,70,229,0.12);
       margin-bottom: 32px;
     }
-    .scan-card h2 { font-size: 18px; color: #1e293b; margin-bottom: 6px; }
-    .scan-card p.subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
-    .scan-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .scan-card h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    .scan-card .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+    .scan-form {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
     .scan-form input[name="target"] {
       flex: 1;
-      min-width: 260px;
-      background: #f0f4ff;
-      border: none; box-shadow: 0 4px 24px rgba(102,126,234,0.13);
-      border-radius: 8px;
+      background: #f8faff;
+      border: 2px solid #e0e7ff;
+      border-radius: 12px;
       color: #1e293b;
       font-size: 14px;
-      padding: 10px 16px;
+      padding: 12px 16px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .scan-form input[name="target"]:focus { border-color: #58a6ff; }
-    /* === Liquid Gradient Button === */
+    .scan-form input[name="target"]:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+    }
+    .scan-form input[name="target"]::placeholder { color: #cbd5e1; }
+
+    /* ── Liquid Gradient Button ── */
     .liquid-btn-wrapper {
       position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 130px;
-      height: 42px;
+      width: 136px;
+      height: 46px;
       flex-shrink: 0;
     }
     .liquid-btn-halo {
       position: absolute;
-      inset: -5px;
-      border-radius: 14px;
+      inset: -6px;
+      border-radius: 16px;
       filter: blur(14px);
-      opacity: 0.55;
+      opacity: 0.6;
       z-index: 0;
       overflow: hidden;
     }
@@ -85,20 +141,20 @@
     .liquid-btn-shadow {
       position: absolute;
       inset: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       background: #020230;
-      filter: blur(5px);
+      filter: blur(6px);
       transform: translateY(4px);
       z-index: 1;
-      opacity: 0.45;
+      opacity: 0.4;
     }
     .liquid-btn-face {
       position: absolute;
       inset: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       z-index: 2;
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(255,255,255,0.4);
     }
     .liquid-btn-face-gradient { position: absolute; inset: 0; }
     .liquid-btn-face-gradient svg { width: 100%; height: 100%; display: block; }
@@ -110,7 +166,7 @@
       border-radius: 8px;
       filter: blur(8px);
       background: #000066;
-      opacity: 0.6;
+      opacity: 0.55;
     }
     .liquid-btn-label {
       position: relative;
@@ -124,41 +180,165 @@
       cursor: pointer;
       border: none;
       background: transparent;
-      color: #ffffff;
+      color: #fff;
       font-size: 14px;
       font-weight: 700;
       letter-spacing: 0.03em;
       white-space: nowrap;
-      padding: 0 12px;
+      padding: 0 14px;
       transition: color 0.2s;
     }
     .liquid-btn-label:hover { color: #fde68a; }
     .liquid-btn-label:hover .lbl-icon { fill: #fde68a; }
-    .lbl-icon { fill: white; flex-shrink: 0; transition: fill 0.2
-    
-</style>
+    .lbl-icon { fill: white; flex-shrink: 0; transition: fill 0.2s; }
 
+    #msg {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #6366f1;
+      font-weight: 500;
+    }
+
+    /* ── Results ── */
+    .results-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 40px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 10px 40px -5px rgba(79,70,229,0.12);
+      margin-bottom: 32px;
+    }
+    .results-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .results-header h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .results-header .target-url {
+      font-size: 12px;
+      color: #6366f1;
+      word-break: break-all;
+      font-weight: 500;
+    }
+
+    .no-findings {
+      text-align: center;
+      padding: 40px 20px;
+      color: #22c55e;
+      font-size: 15px;
+      font-weight: 600;
+      background: #f0fdf4;
+      border-radius: 12px;
+    }
+    .no-findings span { font-size: 28px; display: block; margin-bottom: 8px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead { background: #f8faff; }
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #94a3b8;
+      border-bottom: 2px solid #e0e7ff;
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafbff; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .badge-critical { background: #fef2f2; color: #dc2626; }
+    .badge-high     { background: #fff7ed; color: #ea580c; }
+    .badge-medium   { background: #fefce8; color: #ca8a04; }
+    .badge-low      { background: #f0fdf4; color: #16a34a; }
+    .badge-info     { background: #eff6ff; color: #2563eb; }
+    .badge-unknown  { background: #f8fafc; color: #64748b; }
+
+    .nuclei-log {
+      background: #f8faff;
+      border: 1px solid #e0e7ff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 24px;
+    }
+    .nuclei-log h3 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #94a3b8;
+      margin-bottom: 10px;
+    }
+    .nuclei-log pre {
+      font-size: 12px;
+      color: #475569;
+      white-space: pre-wrap;
+      word-break: break-all;
+      line-height: 1.6;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: #cbd5e1;
+      border-top: 1px solid #e0e7ff;
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">&#x1F6E1; Nuclei Scanner</div>
-  <span class="badge">Security Tool</span>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <span class="header-title">Nuclei Scanner</span>
+  <span class="header-badge">Security Tool</span>
 </header>
 
-<div class="container">
+<main>
+
+  <div class="hero">
+    <h1>Scan for <span>Vulnerabilities</span></h1>
+    <p>Run a Nuclei security scan against any target URL and surface misconfigurations, missing headers, and exposures.</p>
+  </div>
 
   <div class="scan-card">
     <h2>Scan a Target</h2>
-    <p class="subtitle">Enter a URL to run a Nuclei security scan and detect vulnerabilities.</p>
-    <form class="scan-form" action="/scan" method="post"
-          onsubmit="document.getElementById('msg').textContent='Scanning... please wait';">
-      <input name="target" placeholder="https://example.com" required>
+    <p class="subtitle">Enter a URL to begin — only scan targets you own or have permission to test.</p>
+    <form class="scan-form" action="/scan" method="post">
+      <input type="url" name="target" placeholder="https://example.com" required>
       <div class="liquid-btn-wrapper" id="liquidBtnWrapper">
-        <div class="liquid-btn-halo"><svg viewBox="0 0 130 42" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="130" height="42" rx="10" fill="url(#halo-grad)"/><defs><radialGradient id="halo-grad" cx="50%" cy="50%" r="70%"><stop id="hg-s1" offset="0%" stop-color="#a78bfa"/><stop id="hg-s2" offset="60%" stop-color="#4743EF"/><stop id="hg-s3" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg></div>
+        <div class="liquid-btn-halo"><svg viewBox="0 0 136 46" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="136" height="46" rx="12" fill="url(#halo-grad)"/><defs><radialGradient id="halo-grad" cx="50%" cy="50%" r="70%"><stop id="hg-s1" offset="0%" stop-color="#a78bfa"/><stop id="hg-s2" offset="60%" stop-color="#4f46e5"/><stop id="hg-s3" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg></div>
         <div class="liquid-btn-shadow"></div>
         <div class="liquid-btn-face">
-          <div class="liquid-btn-face-gradient"><svg viewBox="0 0 130 42" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="130" height="42" rx="8" fill="url(#face-grad)"/><defs><radialGradient id="face-grad" cx="50%" cy="50%" r="70%"><stop id="fg-s1" offset="0%" stop-color="#9089E2"/><stop id="fg-s2" offset="45%" stop-color="#4743EF"/><stop id="fg-s3" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg></div>
+          <div class="liquid-btn-face-gradient"><svg viewBox="0 0 136 46" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><rect width="136" height="46" rx="10" fill="url(#face-grad)"/><defs><radialGradient id="face-grad" cx="50%" cy="50%" r="70%"><stop id="fg-s1" offset="0%" stop-color="#818cf8"/><stop id="fg-s2" offset="45%" stop-color="#4f46e5"/><stop id="fg-s3" offset="100%" stop-color="#0B06FC"/></radialGradient></defs></svg></div>
           <div class="liquid-btn-face-overlay"></div>
         </div>
         <button type="submit" class="liquid-btn-label" id="liquidScanBtn" aria-label="Run Scan">
@@ -166,85 +346,85 @@
           Run Scan
         </button>
       </div>
-      <script>
-        (function(){
-          var COLS=['#9089E2','#1E10C5','#4743EF','#0B06FC','#7D7BF4','#290ECB','#B2B8E7','#a78bfa'];
-          var a=0, hov=false;
-          var btn=document.getElementById('liquidScanBtn');
-          if(btn){
-            btn.addEventListener('mouseenter',function(){hov=true;});
-            btn.addEventListener('mouseleave',function(){hov=false;});
-          }
-          function tick(){
-            a += hov ? 0.014 : 0.005;
-            var cx=(50+28*Math.sin(a)).toFixed(1)+'%';
-            var cy=(50+22*Math.cos(a*0.7)).toFixed(1)+'%';
-            var r=(60+14*Math.sin(a*0.4)).toFixed(1)+'%';
-            var i=Math.floor(Math.abs(Math.sin(a*0.3))*COLS.length);
-            ['halo-grad','face-grad'].forEach(function(id){
-              var g=document.getElementById(id); if(!g) return;
-              g.setAttribute('cx',cx); g.setAttribute('cy',cy); g.setAttribute('r',r);
-              var s=g.querySelectorAll('stop');
-              if(s[1]) s[1].setAttribute('stop-color',COLS[i]);
-              if(s[2]) s[2].setAttribute('stop-color',COLS[(i+3)%COLS.length]);
-            });
-            requestAnimationFrame(tick);
-          }
-          tick();
-        })();
-      </script>
     </form>
-    <p id="msg"></p>
+    {% if request.method == 'POST' %}<p id="msg">Scanning <strong>{{ target }}</strong>&hellip;</p>{% endif %}
   </div>
 
   {% if target %}
-  <div class="results-header">
-    <h2>Scan Results</h2>
-    <span class="target-url">&#x1F517; {{ target }}</span>
+  <div class="results-card">
+    <div class="results-header">
+      <h2>Scan Results</h2>
+      <span class="target-url">{{ target }}</span>
+    </div>
+
+    {% if findings %}
+    <table>
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Template</th>
+          <th>Name</th>
+          <th>Matched</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in findings %}
+        <tr>
+          <td><span class="badge badge-{{ f.info.severity | lower }}">{{ f.info.severity }}</span></td>
+          <td style="font-family:monospace;font-size:12px;color:#6366f1">{{ f['template-id'] }}</td>
+          <td style="font-weight:600">{{ f.info.name }}</td>
+          <td style="font-family:monospace;font-size:12px;word-break:break-all">{{ f['matched-at'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="no-findings">
+      <span>&#10003;</span>
+      No findings detected for this target.
+    </div>
+    {% endif %}
+
+    {% if stderr %}
+    <div class="nuclei-log">
+      <h3>Scanner Output</h3>
+      <pre>{{ stderr }}</pre>
+    </div>
+    {% endif %}
   </div>
-
-  {% if findings %}
-  <table>
-    <thead>
-      <tr>
-        <th>Severity</th>
-        <th>Template</th>
-        <th>Missing Header</th>
-        <th>URL</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for f in findings %}
-      {% set sev = f.get("info", {}).get("severity", "unknown") | lower %}
-      <tr>
-        <td><span class="severity severity-{{ sev }}">{{ sev }}</span></td>
-        <td>{{ f.get("info", {}).get("name", "") }}</td>
-        <td>{{ f.get("matcher-name", "") }}</td>
-        <td style="word-break:break-all; max-width:200px;">{{ f.get("matched-at", "") }}</td>
-        <td>{{ f.get("info", {}).get("description", "") }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <div class="no-findings">&#x2705; No vulnerabilities found for this target.</div>
   {% endif %}
 
-  {% if stderr %}
-  <div class="nuclei-log">
-    <h3>&#x1F4CB; Nuclei Output</h3>
-    <pre>{{ stderr }}</pre>
-  </div>
-  {% endif %}
-  {% endif %}
-
-</div>
-
-
+</main>
 
 <footer>Nuclei Security Scanner &mdash; For educational use only. Only scan authorized targets.</footer>
 
+<script>
+  (function(){
+    var COLS=['#818cf8','#4f46e5','#7c3aed','#a855f7','#6366f1','#4338ca','#c084fc','#818cf8'];
+    var a=0, hov=false;
+    var btn=document.getElementById('liquidScanBtn');
+    if(btn){
+      btn.addEventListener('mouseenter',function(){hov=true;});
+      btn.addEventListener('mouseleave',function(){hov=false;});
+    }
+    function tick(){
+      a += hov ? 0.016 : 0.005;
+      var cx=(50+28*Math.sin(a)).toFixed(1)+'%';
+      var cy=(50+22*Math.cos(a*0.7)).toFixed(1)+'%';
+      var r=(62+14*Math.sin(a*0.4)).toFixed(1)+'%';
+      var i=Math.floor(Math.abs(Math.sin(a*0.3))*COLS.length);
+      ['halo-grad','face-grad'].forEach(function(id){
+        var g=document.getElementById(id); if(!g) return;
+        g.setAttribute('cx',cx); g.setAttribute('cy',cy); g.setAttribute('r',r);
+        var s=g.querySelectorAll('stop');
+        if(s[1]) s[1].setAttribute('stop-color',COLS[i]);
+        if(s[2]) s[2].setAttribute('stop-color',COLS[(i+3)%COLS.length]);
+      });
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+</script>
+
 </body>
-<
 </html>
